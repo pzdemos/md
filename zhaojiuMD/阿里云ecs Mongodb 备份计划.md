@@ -69,38 +69,29 @@ df -h | grep /mnt/data
 
 - 在新 ECS 实例上安装 MongoDB（版本需与原实例保持一致）。
 
-- 将挂载的云盘挂载到 MongoDB 的数据目录（如 `/data/db2`）。
+- 将挂载的云盘挂载到 MongoDB 的数据目录（如 `/mnt/data`）。
 
 - 启动 MongoDB 服务，确认能够正常读取数据盘中的数据库文件。
 
+```shell
+mongod --dbpath /mnt/data/db2 --bind_ip 127.0.0.1 --port 27017
 
   
+```
 
 ### 6. 使用 `mongodump` 进行数据备份
 
 - 根据需要备份的范围（指定数据库或集合），执行 `mongodump` 命令，例如：
 
-  
-
-**```bash**
-
-**# 备份指定数据库**
-
+备份指定数据库
 **mongodump --db your_database_name --out /backup/path**
 
-  
-
-**# 备份指定集合**
+备份指定集合
 
 **mongodump --db your_database_name --collection your_collection_name --out /backup/path**
 
-**```**
-
-  
 
 **- `/backup/path` 可以是新实例上的目录，也可以挂载 OSS 或其他存储服务。**
-
-  
 
 ### 7. 验证备份结果
 
