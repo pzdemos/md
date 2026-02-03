@@ -1,17 +1,36 @@
 ### 1. 创建新 ECS 实例
 
-**- 在阿里云控制台中创建一个新的 ECS 实例，配置与现有数据库实例相匹配的操作系统和规格（建议保持一致，避免兼容性问题）。**
-
-**- 不需要立即挂载数据盘，先完成实例创建。**
-
-  
+- 在阿里云控制台中创建一个新的 ECS 实例，配置与现有数据库实例相匹配的操作系统和规格（建议保持一致，避免兼容性问题）。
 
 ### 2. 对现有数据库实例创建快照
 
-**- 在阿里云控制台进入 **云盘管理**，找到现有数据库实例挂载的数据盘。**
-
-**- 创建该数据盘的 **快照**，确保快照完成后再继续下一步。**
-
+流程：
+1. 查询快照列表 --> ecs:DescribeSnapshots
+2. 使用数据盘快照创建云盘 --> ecs:CreateDisk
+3. 挂载云盘到备份实例 --> ecs:CreateDisk
+4. 备份完后自动卸载实例 --> ecs:DetachDisk
+准备：
+创建对应权限RAM 账户 获取 key
+自定义策略
+```json
+{
+  "Version": "1",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecs:DescribeSnapshots",
+        "ecs:CreateDisk",
+        "ecs:AttachDisk",
+        "ecs:DetachDisk",
+        "ecs:DescribeInstances",
+        "ecs:DescribeDisks"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
   
 
 ### 3. 基于快照创建新的云盘
