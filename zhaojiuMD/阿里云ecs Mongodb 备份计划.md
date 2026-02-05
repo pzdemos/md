@@ -1,7 +1,7 @@
 
 流程：
 1. 查询快照列表 --> ecs:DescribeSnapshots
-2. 使用数据盘快照创建云盘 --> ecs:CreateDisk
+2. 使用数据盘快照快照创建云盘 --> ecs:CreateDisk
 3. 挂载云盘到备份实例 --> ecs:CreateDisk
 4. 备份完后自动卸载实例 --> ecs:DetachDisk
 准备：
